@@ -6,11 +6,22 @@ import com.wissensalt.rnd.simplealarm.model.data.Schedule;
 import com.wissensalt.rnd.simplealarm.service.IScheduleService;
 import com.wissensalt.rnd.simplealarm.view.dialog.DialogAddSchedule;
 import java.awt.BorderLayout;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
 
 /**
@@ -41,6 +52,9 @@ public class PanelMain extends JPanel implements IComponentInitializer, ICompone
 
     @Autowired
     IScheduleService scheduleService;
+
+    @Autowired
+    ResourceLoader resourceLoader;
 
     @PostConstruct
     @Override
@@ -101,13 +115,31 @@ public class PanelMain extends JPanel implements IComponentInitializer, ICompone
                 JOptionPane.showMessageDialog(null, "Please pick one schedule", "Warning", JOptionPane.WARNING_MESSAGE);
             }
         });
-        
+
         this.panelMainTop.labelTime.addPropertyChangeListener(e -> {
             List<Schedule> activeSchedules = scheduleService.findByEnabled(1);
-            if (activeSchedules.size() > 0){
-                for (Schedule s : activeSchedules){
-                    if (s.getTime().equals(panelMainTop.labelTime.getText())){
+            if (activeSchedules.size() > 0) {
+                for (Schedule s : activeSchedules) {
+                    if (s.getTime().equals(panelMainTop.labelTime.getText())) {
                         JOptionPane.showMessageDialog(null, s.getName(), "Schedule Alert", JOptionPane.INFORMATION_MESSAGE);
+                        AudioInputStream audioInputStream;
+                        try {
+                            audioInputStream = AudioSystem.getAudioInputStream(getClass().getClassLoader().getResource("assets/analog-watch-alarm.wav"));
+                            Clip clip = null;
+                            try {
+                                clip = AudioSystem.getClip();
+                            } catch (LineUnavailableException ex) {
+                                Logger.getLogger(PanelMain.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                            try {
+                                clip.open(audioInputStream);
+                            } catch (LineUnavailableException ex) {
+                                Logger.getLogger(PanelMain.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                            clip.start();
+                        } catch (UnsupportedAudioFileException | IOException ex) {
+                            Logger.getLogger(PanelMain.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                     }
                 }
             }

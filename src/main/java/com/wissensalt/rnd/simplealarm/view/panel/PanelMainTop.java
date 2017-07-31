@@ -38,7 +38,7 @@ public class PanelMainTop extends JPanel implements IComponentInitializer, IComp
     @PostConstruct
     @Override
     public void initComponents() {
-        this.setLayout(new BorderLayout(80, 0));
+        this.setLayout(new BorderLayout(100, 0));
         this.add(labelIconTime, BorderLayout.LINE_START);
         this.add(labelTime, BorderLayout.CENTER);
         
