@@ -48,7 +48,7 @@ public class PanelMainTop extends JPanel implements IComponentInitializer, IComp
     @Override
     public void initAction() {
         Timer SimpleTimer = new Timer(1000, new ActionListener() {
-            SimpleDateFormat formatDate = new SimpleDateFormat("HH:mm:ss");            
+            SimpleDateFormat formatDate = new SimpleDateFormat("HH:mm");            
             @Override
             public void actionPerformed(ActionEvent e) {
                 labelTime.setText(formatDate.format(new Date()));

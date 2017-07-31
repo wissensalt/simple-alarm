@@ -85,8 +85,19 @@ public class TableModelSchedule extends AbstractTableModel implements ITableMode
             case 0 : return schedules.get(rowIndex).getId();
             case 1 : return schedules.get(rowIndex).getName();
             case 2 : return schedules.get(rowIndex).getTime();
-            case 3 : return schedules.get(rowIndex).getRepeat();
-            case 4 : return schedules.get(rowIndex).getEnabled();
+            case 3 : 
+                if (schedules.get(rowIndex).getRepeat()==1){
+                    return "Yes";
+                }else {
+                    return "No";
+                }
+                
+            case 4 : 
+                if (schedules.get(rowIndex).getEnabled() == 1){
+                    return "Yes";
+                }else {
+                    return "No";
+                }
             default:return null;
         }
     }

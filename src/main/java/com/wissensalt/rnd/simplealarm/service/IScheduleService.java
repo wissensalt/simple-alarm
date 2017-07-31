@@ -14,6 +14,10 @@ public interface IScheduleService {
     @Transactional
     void insert(Schedule schedule);
     
+    Schedule findById(Integer p_Id);
+    
+    List<Schedule> findByEnabled(Integer p_Enabled);
+    
     List<Schedule> findAll();
     
     @Transactional

@@ -22,6 +22,17 @@ public class ScheduleServiceImpl implements IScheduleService {
     }
 
     @Override
+    public Schedule findById(Integer p_Id) {
+        return scheduleDAO.findOne(p_Id);
+    }
+
+    @Override
+    public List<Schedule> findByEnabled(Integer p_Enabled) {
+        return scheduleDAO.findByEnabled(p_Enabled);
+    }
+   
+    
+    @Override
     public List<Schedule> findAll() {
         return scheduleDAO.findAll();
     }
