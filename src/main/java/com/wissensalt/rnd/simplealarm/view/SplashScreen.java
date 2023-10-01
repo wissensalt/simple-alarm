@@ -2,6 +2,8 @@ package com.wissensalt.rnd.simplealarm.view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Frame;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -71,18 +73,20 @@ public class SplashScreen {
         dialog.dispose();
     }
 
-    protected void showSplashScreen() throws MalformedURLException {
+    protected void showSplashScreen() {
         dialog = new JDialog((Frame) null);
         dialog.setModal(false);
         dialog.setUndecorated(true);
-        JLabel background = new JLabel(new ImageIcon(getClass().getClassLoader().getResource("assets/etcsplash.png")));
+        JLabel background = new JLabel(new ImageIcon(getClass().getClassLoader().getResource(
+            "assets/icon-splash.png")));
         background.setLayout(new BorderLayout());
         dialog.add(background);
         Toolkit kit = Toolkit.getDefaultToolkit();
         Image splashScreenIcon = kit.getImage(getClass().getClassLoader().getResource("assets/jframeicon.png"));
         dialog.setIconImage(splashScreenIcon);
+        dialog.setMinimumSize(new Dimension(500, 200));
         JLabel lblLoading = new JLabel("Loading, please wait...");
-        lblLoading.setForeground(Color.WHITE);
+        lblLoading.setForeground(Color.BLACK);
         lblLoading.setBorder(BorderFactory.createEmptyBorder(100, 50, 100, 50));
         background.add(lblLoading);
         progress = new JProgressBar();
